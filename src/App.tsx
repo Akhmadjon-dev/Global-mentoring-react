@@ -8,7 +8,7 @@ function App() {
       <h1>Welcome global mentoring react</h1>
       <p>Hello world!</p>
       <Counter/>
-    </div>
+    </div> 
   ); 
 } 
 

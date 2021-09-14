@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Button from '../Components/Button';
-
+ 
 interface ICounter {
     counter: number
 }
