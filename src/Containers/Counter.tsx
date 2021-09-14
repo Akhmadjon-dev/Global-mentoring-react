@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
+import React, {  PureComponent } from 'react'
 import Button from '../Components/Button';
  
 interface ICounter {
     counter: number
 }
 
-export  class Counter extends Component {
+export  class Counter extends PureComponent {
     state = {
         counter: 0
     }
