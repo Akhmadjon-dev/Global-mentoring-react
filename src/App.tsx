@@ -1,12 +1,17 @@
 import React from 'react';
+import HelloWorld from './Components/HelloWorld';
+import Title from './Components/Title';
+import { Counter } from './Containers/Counter';
+
 
 function App() {
   return (
     <div className="App">
-      <h1>Global mentoring react</h1>
-      <p>Hello world!</p>
-    </div>
-  );
+      {Title}
+      <HelloWorld/>
+      <Counter/>
+    </div> 
+  ); 
 } 
 
 export default App;
