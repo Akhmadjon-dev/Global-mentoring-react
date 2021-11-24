@@ -25,7 +25,7 @@ export interface IMovie {
     id: string;
     title: string;
     rate: string;
-    genre: string;
+    genre: string[];
     description: string;
     releaseDate: string;
     url: string;

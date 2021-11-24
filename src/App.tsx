@@ -38,7 +38,7 @@ function App() {
         id: movie.id,
         title: movie.title,
         rate: '10',
-        genre: movie.genres[0],
+        genre: movie.genres,
         description: movie.overview,
         releaseDate: movie.release_date,
         url: movie.poster_path,

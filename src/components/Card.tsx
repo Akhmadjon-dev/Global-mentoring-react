@@ -77,7 +77,14 @@ function Card({ movie, deleteHandler, edit, selectMovieHandler }: { movie: IMovi
           </p>
         </div>
         <div className="card__tags">
-          {movie.genre}
+          {movie.genre.map((item) => (
+            <>
+              <span className="card__tag" key={item}>
+                {item}
+              </span>
+              {" "}
+            </>
+          ))}
         </div>
       </div>
     </CardStyled>
