@@ -1,7 +1,6 @@
-import { MOVIE_ERROR, MOVIE_SUCCESS, MOVIE_LOADING } from './actionTypes';
+import { MOVIE_LOADING } from './actionTypes';
 import { MovieDispatchTypes } from './types';
 import { Dispatch } from 'redux';
-import axios from '../../utils/axios';
 
 
 export function getMovies() {

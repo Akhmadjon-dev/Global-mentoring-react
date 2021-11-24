@@ -14,7 +14,7 @@ import MovieDetails from "./components/MovieDetails";
 
 import { AppDispatch, RootState } from './store';
 import { useAppDispatch } from './store/hooks';
-import { fetchMovies } from './store/thunks';
+import { fetchMovies, filterMovies as filterMovie } from './store/thunks';
 import { selectMovies } from './store/movies/moviesSlice';
 
 function App() {
@@ -31,7 +31,7 @@ function App() {
   }, [dispatch]);
   
   const myMovies = useSelector(selectMovies);
-
+  console.log(myMovies, 'my movies');
   const convertMovies = (moviesList) => {
     return moviesList.map(movie => {
       return {
@@ -63,10 +63,9 @@ function App() {
 
   const filterMovies = (id: string): any => {
     if (id === "all") {
-      setData(movies);
+      dispatch(fetchMovies());
     } else {
-      const sortedList = movies.filter((item) => item.genre === id);
-      setData(sortedList);
+      dispatch(filterMovie(id));
     }
   };
 

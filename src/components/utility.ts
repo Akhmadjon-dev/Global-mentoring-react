@@ -20,7 +20,7 @@ export const tabs = [
         title: 'Crime',
     },
     {
-        id: 'advanture',
-        title: 'Advanture',
+        id: 'adventure',
+        title: 'Adventure',
     },
 ]
