@@ -27,3 +27,10 @@ export const sortByMovies = createAsyncThunk<IMovie[], string>(
     return response.data.data;
   }
 ); 
+export const searchMovies = createAsyncThunk<IMovie[], string>(
+  "movies/search",
+  async (query: string) => {
+    const response: AxiosResponse<any> = await axios.get<any>(`/movies?search=${query}&searchBy=title`);
+    return response.data.data;
+  }
+); 

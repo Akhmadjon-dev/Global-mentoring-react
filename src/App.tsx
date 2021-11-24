@@ -14,7 +14,7 @@ import MovieDetails from "./components/MovieDetails";
 
 import { AppDispatch, RootState } from './store';
 import { useAppDispatch } from './store/hooks';
-import { fetchMovies, filterMovies, sortByMovies } from './store/thunks';
+import { fetchMovies, filterMovies, searchMovies, sortByMovies } from './store/thunks';
 import { selectMovies } from './store/movies/moviesSlice';
 
 function App() {
@@ -29,7 +29,7 @@ function App() {
   useEffect(() => {
     dispatch(fetchMovies());
   }, [dispatch]);
-  
+
   
   const myMovies = useSelector(selectMovies);
   console.log(myMovies, 'my movies');
@@ -83,12 +83,21 @@ function App() {
     dispatch(sortByMovies(id));
   };
 
+
+  const searchHandler = (e: any): any => {
+    e.preventDefault();
+    const searchValue = e.target.value;
+    console.log(searchValue, 'search value');
+    dispatch(searchMovies(searchValue));
+  };
+  
+
   //dispatch(getMovies());
   // console.log(movieStore, 'movie store');
   
   return (
     <StyledApp>
-      {!selectedMovie && <Header modalOpen={() => setModalIsOpen(true)} />}
+      {!selectedMovie && <Header searchHandler={searchHandler} modalOpen={() => setModalIsOpen(true)} />}
       {selectedMovie && (
         <MovieDetails
           data={selectedMovie}

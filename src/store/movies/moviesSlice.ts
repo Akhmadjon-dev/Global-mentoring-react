@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../index';
 
 import { IMovie } from './types';
-import { fetchMovies, filterMovies, sortByMovies } from '../thunks';
+import { fetchMovies, filterMovies, searchMovies, sortByMovies } from '../thunks';
 
 export interface MoviesState {
   movies: IMovie[],
@@ -52,6 +52,13 @@ export const moviesSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(sortByMovies.fulfilled, (state, {payload}) => {
+      state.isLoading = false;
+      state.movies = payload;
+    });
+    builder.addCase(searchMovies.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(searchMovies.fulfilled, (state, {payload}) => {
       state.isLoading = false;
       state.movies = payload;
     });
