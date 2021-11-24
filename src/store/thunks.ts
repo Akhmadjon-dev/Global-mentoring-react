@@ -16,7 +16,14 @@ export const filterMovies = createAsyncThunk<IMovie[], string>(
   "movies/filter",
   async (query: string) => {
     const response: AxiosResponse<any> = await axios.get<any>(`/movies?filter=${query}`);
-    console.log(query, 'query', response.data.data);
+    return response.data.data;
+  }
+); 
+
+export const sortByMovies = createAsyncThunk<IMovie[], string>(
+  "movies/sortBy",
+  async (query: string) => {
+    const response: AxiosResponse<any> = await axios.get<any>(`/movies?sortBy=${query}&sortOrder=asc`);
     return response.data.data;
   }
 ); 

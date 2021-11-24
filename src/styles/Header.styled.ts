@@ -61,6 +61,7 @@ export const StyledHeader = styled.div`
         border-radius: 4px;
         border-width: 0px;
         outline-color: ${colors.red};
+        color: ${colors.white};
     }
     .header__search-button{
         padding: 17px 74px;

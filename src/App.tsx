@@ -14,7 +14,7 @@ import MovieDetails from "./components/MovieDetails";
 
 import { AppDispatch, RootState } from './store';
 import { useAppDispatch } from './store/hooks';
-import { fetchMovies, filterMovies as filterMovie } from './store/thunks';
+import { fetchMovies, filterMovies, sortByMovies } from './store/thunks';
 import { selectMovies } from './store/movies/moviesSlice';
 
 function App() {
@@ -29,6 +29,7 @@ function App() {
   useEffect(() => {
     dispatch(fetchMovies());
   }, [dispatch]);
+  
   
   const myMovies = useSelector(selectMovies);
   console.log(myMovies, 'my movies');
@@ -61,11 +62,11 @@ function App() {
     console.log("edit handler");
   };
 
-  const filterMovies = (id: string): any => {
+  const filterHandler = (id: string): any => {
     if (id === "all") {
       dispatch(fetchMovies());
     } else {
-      dispatch(filterMovie(id));
+      dispatch(filterMovies(id));
     }
   };
 
@@ -76,6 +77,10 @@ function App() {
     } else {
       setSelectedMovie(null);
     }
+  };
+
+  const sortHandler = (id: string): any => {
+    dispatch(sortByMovies(id));
   };
 
   //dispatch(getMovies());
@@ -97,11 +102,12 @@ function App() {
       />
       <Movies
         selectMovieHandler={selectedMovieHandler}
-        filterMovies={filterMovies}
+        filterMovies={filterHandler}
         edit={editHandler}
         add={addHandler}
         deleteHandler={deleteMovie}
         data={convertMovies(myMovies)}
+        sortMovies={sortHandler}
       />
       <Logo />
     </StyledApp>

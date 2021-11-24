@@ -24,3 +24,17 @@ export const tabs = [
         title: 'Adventure',
     },
 ]
+export const sortBy = [
+    {
+        id: 'release_date',
+        title: 'Release Date',
+    },
+    {
+        id: 'vote_average',
+        title: 'Rate',
+    },
+    {
+        id: 'revenue',
+        title: 'Revenue',
+    }
+]

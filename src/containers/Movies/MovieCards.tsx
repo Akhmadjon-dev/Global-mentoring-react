@@ -4,6 +4,7 @@ import { IMoviesCards } from '../../components/types'
 
 export interface IMovieCards extends IMoviesCards {
     filterMovies: (id: string) => {};
+    sortMovies: (id: string) => {};
 }
 
 function MovieCards({ data, edit, add, deleteHandler, selectMovieHandler }: IMoviesCards) {

@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { ITabs } from './types'
-import { tabs } from './utility'
+import { sortBy, tabs } from './utility'
 
-function Tabs({ filterMovies }: { filterMovies: (id: string) => {} }) {
+function Tabs({ filterMovies, sortMovies }: { filterMovies: (id: string) => {}, sortMovies: (id: string) => {} }) {
 
 
     const [activeTab, setActiveTab] = useState<string>('all')
@@ -23,7 +23,7 @@ function Tabs({ filterMovies }: { filterMovies: (id: string) => {} }) {
 
     const selectHandler = (e: { target: { value: any } }) => {
         const { value } = e.target;
-        filterMovies(value)
+        sortMovies(value)
     }
 
     return (
@@ -35,7 +35,7 @@ function Tabs({ filterMovies }: { filterMovies: (id: string) => {} }) {
                 <label>Sort by</label>
                 <select onChange={selectHandler}>
                     {
-                        tabs.map(item => (
+                        sortBy.map(item => (
                             <option value={item.id}>
                                 {item.title}
                             </option>

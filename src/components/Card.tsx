@@ -61,9 +61,9 @@ function Card({ movie, deleteHandler, edit, selectMovieHandler }: { movie: IMovi
         <img src={cardImage} alt="" />
         <div className="card__btns">
           <Dropdown overlay={menu}>
-            <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+            <p className="ant-dropdown-link" onClick={e => e.preventDefault()}>
               <DownOutlined style={{ fontSize: "20px" }} />
-            </a>
+            </p>
           </Dropdown>
         </div>
       </div>
