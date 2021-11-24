@@ -1,34 +1,19 @@
+import { configureStore } from '@reduxjs/toolkit'
 
-import { applyMiddleware, combineReducers, createStore } from 'redux';
-import thunkMiddleware from 'redux-thunk';
-import logger from 'redux-logger';
-import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
+import moviesReducer from './movies/moviesSlice';
 
-// import authReducer from './Auth/reducer';
-import movieReducer from './Movie/reducers';
-import { composeWithDevTools } from 'redux-devtools-extension';
-
-const rootReducer = combineReducers({
-//   auth: authReducer,
-    movies: movieReducer,
+export const store = configureStore({
+    reducer: {
+        movies: moviesReducer
+    },
+    //middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger).concat(thunkMiddleware),
+    devTools: true,
 });
 
-const persistConfig = {
-  key: 'root',
-  whitelist: ['auth'],
-  storage,
-};
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+//const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunkMiddleware, logger)));
 
-const store = createStore(persistedReducer, composeWithDevTools(applyMiddleware(thunkMiddleware, logger)));
-const persistor = persistStore(store);
-
-// Infer the `RootState` and `AppDispatch` types from the store itself
-export type RootState = ReturnType<typeof movieReducer>
-
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
+export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
 
-export { store as default, persistor };
+export { store as default };

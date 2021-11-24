@@ -4,7 +4,14 @@ import {Dispatch} from 'redux';
 import axios from '../../utils/axios';
  
 
-export const getMovies = () => async (dispatch:Dispatch<MovieDispatchTypes>) => {
+export function getMovies() {
+    return async function(dispatch) {
+        dispatch({
+            type: MOVIE_LOADING
+        })
+    }
+} 
+/* export const getMovies = () => async (dispatch:Dispatch<MovieDispatchTypes>) => {
     try {
         dispatch({
             type: MOVIE_LOADING
@@ -26,7 +33,7 @@ export const getMovies = () => async (dispatch:Dispatch<MovieDispatchTypes>) => 
             type: MOVIE_ERROR
         })
     }
-}
+} */
 
 export const getMovie = (id:string) => async (dispatch:Dispatch<MovieDispatchTypes>, getState:any) => {
     try {
