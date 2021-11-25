@@ -15,7 +15,7 @@ function Tabs({ filterMovies, sortMovies }: { filterMovies: (id: string) => {}, 
 
     const renderTabs = () => {
         return tablsList.map((tab, index) => (
-            <li onClick={() => handleClick(tab.id)} key={index} className={tab.id === activeTab ? ' tab--active tab' : "tab"}>
+            <li onClick={() => handleClick(tab.id)} key={tab.id} className={tab.id === activeTab ? ' tab--active tab' : "tab"}>
                 {tab.title}
             </li>
         ))
@@ -36,7 +36,7 @@ function Tabs({ filterMovies, sortMovies }: { filterMovies: (id: string) => {}, 
                 <select onChange={selectHandler}>
                     {
                         sortBy.map(item => (
-                            <option value={item.id}>
+                            <option key={item.id} value={item.id}>
                                 {item.title}
                             </option>
                         ))

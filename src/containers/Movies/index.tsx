@@ -11,7 +11,6 @@ function Movies({ data, edit, add, deleteHandler, filterMovies, selectMovieHandl
             <Tabs filterMovies={filterMovies} sortMovies={sortMovies}/>
             <MoviesLabel number={data.length} />
             <MovieCards selectMovieHandler={selectMovieHandler} edit={edit} add={add} deleteHandler={deleteHandler} data={data} />
-
         </StyledMovies>
     )
 }
