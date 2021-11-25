@@ -11,7 +11,7 @@ function MovieCards({ data, edit, add, deleteHandler, selectMovieHandler }: IMov
     return (
         <div className="movie__cards">
             {data.map(movie => (
-                <Card edit={edit} deleteHandler={deleteHandler} movie={movie} selectMovieHandler={selectMovieHandler} />
+                <Card key={movie.id} edit={edit} deleteHandler={deleteHandler} movie={movie} selectMovieHandler={selectMovieHandler} />
             ))}
         </div>
     )

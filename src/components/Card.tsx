@@ -4,11 +4,7 @@ import { IMovie } from './types';
 import { Button, Dropdown, Menu, Modal } from 'antd';
 import { DownOutlined, DeleteOutlined, ExclamationCircleOutlined, EditOutlined } from '@ant-design/icons';
 
-
 const { confirm } = Modal;
-
-
-
 
 function Card({ movie, deleteHandler, edit, selectMovieHandler }: { movie: IMovie, selectMovieHandler: (id: string) => {}, deleteHandler: any, edit: any }) {
 
@@ -59,8 +55,8 @@ function Card({ movie, deleteHandler, edit, selectMovieHandler }: { movie: IMovi
         <img src={movie.poster_path ? movie.poster_path : cardImage} alt="" />
         <div className="card__btns">
           <Dropdown overlay={menu}>
-            <p className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-              <DownOutlined style={{ fontSize: "20px" }} />
+            <p className="ant-dropdown-link">
+              <DownOutlined style={{ fontSize: "20px", color:"white" }} />
             </p>
           </Dropdown>
         </div>

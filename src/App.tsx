@@ -5,14 +5,8 @@ import Logo from "./components/Logo";
 import { IMovie } from "./components/types";
 import Header from "./containers/Header";
 import Movies from "./containers/Movies";
-import movies from "./db/movies";
 import { StyledApp } from "./styles/App.styled";
 import MovieDetails from "./components/MovieDetails";
-//import { useAppDispatch, useAppSelector } from "./store/hooks";
-//import { getMovies } from "./store/Movie/actions";
-//import { AppDispatch } from "./store";
-
-import { AppDispatch, RootState } from './store';
 import { useAppDispatch } from './store/hooks';
 import { fetchMovies, filterMovies, searchMovies, sortByMovies } from './store/thunks';
 import { selectMovies } from './store/movies/moviesSlice';
@@ -31,8 +25,8 @@ function App() {
   const convertMovies = useSelector(selectMovies);
 
   const deleteMovie = (id: any) => {
-    const udpated = data.filter((i) => i.id !== id);
-    setData(udpated);
+    const updated = data.filter((i) => i.id !== id);
+    setData(updated);
   };
 
   const addHandler = (movie: IMovie) => {

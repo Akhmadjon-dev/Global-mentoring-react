@@ -1,4 +1,3 @@
-import React from 'react'
 import MoviesLabel from '../../components/MoviesLabel';
 import Tabs from '../../components/Tabs';
 import { StyledMovies } from '../../styles/Movies.styled';
