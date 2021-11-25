@@ -1,4 +1,3 @@
-import React from 'react'
 import CardStyled from '../styles/Card.styled'
 import cardImage from '../assets/img/card.png';
 import { IMovie } from './types';
