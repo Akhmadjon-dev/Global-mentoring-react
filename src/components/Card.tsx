@@ -54,9 +54,9 @@ function Card({ movie, deleteHandler, edit, selectMovieHandler }: { movie: IMovi
     </Menu>
   );
   return (
-    <CardStyled onClick={() => selectMovieHandler(movie.id)}>
+    <CardStyled onClick={() => selectMovieHandler(`${movie.id}`)}>
       <div className="card__img">
-        <img src={movie.url ? movie.url : cardImage} alt="" />
+        <img src={movie.poster_path ? movie.poster_path : cardImage} alt="" />
         <div className="card__btns">
           <Dropdown overlay={menu}>
             <p className="ant-dropdown-link" onClick={e => e.preventDefault()}>
@@ -71,11 +71,11 @@ function Card({ movie, deleteHandler, edit, selectMovieHandler }: { movie: IMovi
             {movie.title}
           </h2>
           <p className="card__release-date">
-            {movie.releaseDate}
+            {movie.release_date}
           </p>
         </div>
         <div className="card__tags">
-          {movie.genre.map((item) => (
+          {movie.genres.map((item) => (
             <>
               <span className="card__tag" key={item}>
                 {item}

@@ -21,32 +21,14 @@ function App() {
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const [data, setData] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState<IMovie | null>();
-  //const movieStore = useAppSelector(state => state.movies);
   const dispatch: any = useAppDispatch();
-
-  //console.log(movieStore, 'movie store');
 
   useEffect(() => {
     dispatch(fetchMovies());
   }, [dispatch]);
 
   
-  const myMovies = useSelector(selectMovies);
-  console.log(myMovies, 'my movies');
-  const convertMovies = (moviesList) => {
-    return moviesList.map(movie => {
-      return {
-        id: movie.id,
-        title: movie.title,
-        rate: '10',
-        genre: movie.genres,
-        description: movie.overview,
-        releaseDate: movie.release_date,
-        url: movie.poster_path,
-        runtime: `${movie.runtime}`
-      }
-    })
-  }
+  const convertMovies = useSelector(selectMovies);
 
   const deleteMovie = (id: any) => {
     const udpated = data.filter((i) => i.id !== id);
@@ -91,10 +73,6 @@ function App() {
     dispatch(searchMovies(searchValue));
   };
   
-
-  //dispatch(getMovies());
-  // console.log(movieStore, 'movie store');
-  
   return (
     <StyledApp>
       {!selectedMovie && <Header searchHandler={searchHandler} modalOpen={() => setModalIsOpen(true)} />}
@@ -115,7 +93,7 @@ function App() {
         edit={editHandler}
         add={addHandler}
         deleteHandler={deleteMovie}
-        data={convertMovies(myMovies)}
+        data={convertMovies}
         sortMovies={sortHandler}
       />
       <Logo />
