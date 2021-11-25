@@ -54,11 +54,10 @@ function Card({ movie, deleteHandler, edit, selectMovieHandler }: { movie: IMovi
       </Menu.Item>
     </Menu>
   );
-
   return (
     <CardStyled onClick={() => selectMovieHandler(movie.id)}>
       <div className="card__img">
-        <img src={cardImage} alt="" />
+        <img src={movie.url ? movie.url : cardImage} alt="" />
         <div className="card__btns">
           <Dropdown overlay={menu}>
             <p className="ant-dropdown-link" onClick={e => e.preventDefault()}>

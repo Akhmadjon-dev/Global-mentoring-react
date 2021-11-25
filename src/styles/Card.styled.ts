@@ -52,6 +52,10 @@ export default styled.div`
         mix-blend-mode: normal;
         opacity: 0.5;
     }
+    .card__img img{
+        width: 100%;       
+
+    }
     
 
 `
