@@ -73,7 +73,6 @@ function App() {
   const searchHandler = (e: any): any => {
     e.preventDefault();
     const searchValue = e.target.value;
-    console.log(searchValue, 'search value');
     dispatch(searchMovies(searchValue));
   };
   
