@@ -19,6 +19,7 @@ export interface IInput {
     width: string;
     marginRight?: string;
     height?: string;
+    isValid?: boolean;
 }
 
 export interface IMovie {

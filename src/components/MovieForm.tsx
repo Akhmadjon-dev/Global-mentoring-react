@@ -5,8 +5,8 @@ import Button from './Button';
 import Input from './Input';
 import { IForm } from './types';
 import { Modal as AntModal } from 'antd';
-import { Formik, Form } from 'formik';
-
+import { Formik, Form, ErrorMessage } from 'formik';
+import * as Yup from "yup";
 
 const customStyles = {
     content: {
@@ -38,6 +38,19 @@ const initialValues = {
 
 Modal.setAppElement('#modal');
 
+const FormSchema = Yup.object().shape({
+    title: Yup.string()
+      .min(2, 'Too Short!')
+      .max(70, 'Too Long!')
+      .required('Required'),
+    genres: Yup.string()
+      .required('Required'),
+    overview: Yup.string()
+      .required('Required'),
+    poster_path: Yup.string()
+      .required('Required'),
+  });
+
 function FormComponent({
     isOpen,
     modalClose,
@@ -62,6 +75,7 @@ function FormComponent({
             <StyledForm>
                 <Formik
                     initialValues={initialValues}
+                    validationSchema={FormSchema}
                     onSubmit={(
                         values,
                         { setSubmitting, resetForm }
@@ -73,7 +87,7 @@ function FormComponent({
                         success() 
                      }}
                 >
-                    {({ values, handleChange, handleSubmit }) => (
+                    {({ errors, touched, values, handleChange, handleSubmit }) => (
                         <Form onSubmit={handleSubmit}>
                             <div className="row">
                                 <div style={{
@@ -100,6 +114,7 @@ function FormComponent({
                                     value={values.title}
                                     onchange={handleChange}
                                     marginRight="40px"
+                                    isValid={true}
                                 />
                                 <Input
                                     width="300px"
