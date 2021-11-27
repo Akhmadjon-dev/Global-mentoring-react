@@ -1,7 +1,7 @@
 import sty from 'styled-components';
 import clr from './colors';
 
-export const StyledBtn = sty.button<{width?: string, margin?: string, bg?: string}>`
+export const StyledBtn = sty.button<{width?: string, margin?: string, bg?: string, type?: string}>`
 
     font-weight: 500;
     font-size: 20px;

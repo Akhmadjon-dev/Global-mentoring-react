@@ -5,6 +5,7 @@ import Button from './Button';
 import Input from './Input';
 import { IForm } from './types';
 import { Modal as AntModal } from 'antd';
+import { Formik, Form } from 'formik';
 
 
 const customStyles = {
@@ -20,25 +21,28 @@ const customStyles = {
     },
 };
 
+const initialValues = {
+    id: 0,
+    title: '',
+    vote_average: '',
+    genres: '',
+    overview: '',
+    release_date: '',
+    poster_path: '',
+    runtime: '',
+    budget: '',
+    revenue: '',
+    tagline: '',
+    vote_count: '',
+}
 
 Modal.setAppElement('#modal');
 
-function Form({
+function FormComponent({
     isOpen,
     modalClose,
     addMovie
 }: IForm) {
-
-    const [data, setData] = useState({
-        id: "",
-        title: '',
-        releaseDate: '',
-        rate: '0',
-        url: '',
-        genre: '',
-        runtime: '',
-        description: '',
-    })
 
     function success() {
         AntModal.success({
@@ -47,141 +51,131 @@ function Form({
         });
     }
 
-    const changeHandler = (e: any): void => {
-        const { name, value } = e.target;
-        setData((prev) => ({ ...prev, [name]: value }))
-    }
-
-    const submitHandler = (e: any) => {
-
-        console.log('submittted', data);
-        addMovie(data)
-        resetHandler()
-        modalClose()
-        success()
-    }
-
-    const resetHandler = () => {
-        setData({
-            id: "",
-            title: '',
-            releaseDate: '',
-            rate: '0',
-            url: '',
-            genre: '',
-            runtime: '',
-            description: '',
-        })
-        console.log('resetted')
-    }
-    const { title, releaseDate, description, rate, url, genre, runtime, } = data
+    let resetHandler = () => {}
     return (
 
         <Modal
             isOpen={isOpen}
             onRequestClose={modalClose}
             style={customStyles}
-        // contentLabel={"Add Movie"}
         >
             <StyledForm>
-                <div className="row">
-                    <div style={{
-                        color: "#fff",
-                        fontSize: "40px",
-                        fontWeight: 300,
-                        lineHeight: "49px",
-                        textTransform: "uppercase",
-                        letterSpacing: "1px",
-                        marginBottom: "20px"
-                    }} className="form__title">
-                        Add movie
-                    </div>
-                    <button onClick={modalClose} className="modal__btn-close">X</button>
-                </div>
-                <div className="row">
-                    <Input
-                        width="525px"
-                        label="Title"
-                        name="title"
-                        id="title"
-                        type="text"
-                        placeholder="Enter title"
-                        value={title}
-                        onchange={changeHandler}
-                        marginRight="40px"
-                    />
-                    <Input
-                        width="300px"
-                        label="Release Date"
-                        name="releaseDate"
-                        id="releaseDate"
-                        type="date"
-                        placeholder="Select Date"
-                        value={releaseDate}
-                        onchange={changeHandler}
-                    />
-                </div>
-                <div className="row">
-                    <Input
-                        width="525px"
-                        label="Movie Url"
-                        name="url"
-                        id="url"
-                        type="text"
-                        placeholder="https://"
-                        value={url}
-                        onchange={changeHandler}
-                        marginRight="40px"
-                    />
-                    <Input
-                        width="300px"
-                        label="Rating"
-                        name="rate"
-                        id="rate"
-                        type="text"
-                        placeholder="Select Date"
-                        value={rate}
-                        onchange={changeHandler}
-                    />
-                </div>
-                <div className="row">
-                    <Input
-                        width="525px"
-                        label="Genre"
-                        name="genre"
-                        id="genre"
-                        type="select"
-                        placeholder="Select genre"
-                        value={genre}
-                        onchange={changeHandler}
-                        marginRight="40px"
-                    />
-                    <Input
-                        width="300px"
-                        label="Runtime"
-                        name="runtime"
-                        id="runtime"
-                        type="text"
-                        placeholder="Minutes"
-                        value={runtime}
-                        onchange={changeHandler}
-                    />
-                </div>
-                <textarea
-                    name="description"
-                    id="description"
-                    placeholder="Movie description"
-                    value={description}
-                    onChange={changeHandler}
-                />
-                <div className="row mt-20 justtify-right mr-40">
-                    <Button handler={resetHandler} bg="transparent" label="RESET" />
-                    <Button handler={submitHandler} bg="" label="SUBMIT" />
-                </div>
+                <Formik
+                    initialValues={initialValues}
+                    onSubmit={(
+                        values,
+                        { setSubmitting, resetForm }
+                        
+                    ) => {
+                        addMovie(values)
+                        resetHandler = resetForm
+                        modalClose()
+                        success() 
+                     }}
+                >
+                    {({ values, handleChange, handleSubmit }) => (
+                        <Form onSubmit={handleSubmit}>
+                            <div className="row">
+                                <div style={{
+                                    color: "#fff",
+                                    fontSize: "40px",
+                                    fontWeight: 300,
+                                    lineHeight: "49px",
+                                    textTransform: "uppercase",
+                                    letterSpacing: "1px",
+                                    marginBottom: "20px"
+                                }} className="form__title">
+                                    Add movie
+                                </div>
+                                <button onClick={modalClose} className="modal__btn-close">X</button>
+                            </div>
+                            <div className="row">
+                                <Input
+                                    width="525px"
+                                    label="Title"
+                                    name="title"
+                                    id="title"
+                                    type="text"
+                                    placeholder="Enter title"
+                                    value={values.title}
+                                    onchange={handleChange}
+                                    marginRight="40px"
+                                />
+                                <Input
+                                    width="300px"
+                                    label="Release Date"
+                                    name="release_date"
+                                    id="release_date"
+                                    type="date"
+                                    placeholder="Select Date"
+                                    value={values.release_date}
+                                    onchange={handleChange}
+                                />
+                            </div>
+                            <div className="row">
+                                <Input
+                                    width="525px"
+                                    label="Movie poster_path"
+                                    name="poster_path"
+                                    id="poster_path"
+                                    type="text"
+                                    placeholder="https://"
+                                    value={values.poster_path}
+                                    onchange={handleChange}
+                                    marginRight="40px"
+                                />
+                                <Input
+                                    width="300px"
+                                    label="Rating"
+                                    name="vote_count"
+                                    id="vote_count"
+                                    type="number"
+                                    placeholder="Enter your rate"
+                                    value={values.vote_count}
+                                    onchange={handleChange}
+                                />
+                            </div>
+                            <div className="row">
+                                <Input
+                                    width="525px"
+                                    label="Genres"
+                                    name="genres"
+                                    id="genres"
+                                    type="select"
+                                    placeholder="Select genres"
+                                    value={values.genres[0]}
+                                    onchange={handleChange}
+                                    marginRight="40px"
+                                />
+                                <Input
+                                    width="300px"
+                                    label="Runtime"
+                                    name="runtime"
+                                    id="runtime"
+                                    type="text"
+                                    placeholder="Minutes"
+                                    value={values.runtime}
+                                    onchange={handleChange}
+                                />
+                            </div>
+                            <textarea
+                                name="overview"
+                                id="overview"
+                                placeholder="Movie overview"
+                                value={values.overview}
+                                onChange={handleChange}
+                            />
+                            <div className="row mt-20 justify-right mr-40">
+                                <Button type='reset' handler={resetHandler} bg="transparent" label="RESET" />
+                                <Button type="submit" bg="" label="SUBMIT" />
+                            </div>
+                        </Form>
+                    )}
+                </Formik>
             </StyledForm>
 
         </Modal>
     )
 }
 
-export default Form
+export default FormComponent

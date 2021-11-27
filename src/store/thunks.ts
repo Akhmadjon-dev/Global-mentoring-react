@@ -34,3 +34,11 @@ export const searchMovies = createAsyncThunk<IMovie[], string>(
     return response.data.data;
   }
 ); 
+export const addMovie = createAsyncThunk<IMovie[], IMovie>(
+  "movies/add",
+  async (movie: IMovie) => {
+    console.log(movie, 'in the thunk')
+    const response: AxiosResponse<any> = await axios.post<any>(`/movies`, movie);
+    return response.data;
+  }
+); 

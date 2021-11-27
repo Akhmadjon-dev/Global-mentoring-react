@@ -41,7 +41,7 @@ function Card({ movie, deleteHandler, edit, selectMovieHandler }: { movie: IMovi
         <Button onClick={editHandler} type="dashed">
           <EditOutlined />
         </Button>
-      </Menu.Item>
+      </Menu.Item> 
       <Menu.Item >
         <Button onClick={showDeleteConfirm} danger type="dashed">
           <DeleteOutlined />

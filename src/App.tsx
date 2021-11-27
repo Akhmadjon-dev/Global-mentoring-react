@@ -8,7 +8,7 @@ import Movies from "./containers/Movies";
 import { StyledApp } from "./styles/App.styled";
 import MovieDetails from "./components/MovieDetails";
 import { useAppDispatch } from './store/hooks';
-import { fetchMovies, filterMovies, searchMovies, sortByMovies } from './store/thunks';
+import { addMovie, fetchMovies, filterMovies, searchMovies, sortByMovies } from './store/thunks';
 import { selectMovies } from './store/movies/moviesSlice';
 
 function App() {
@@ -28,9 +28,19 @@ function App() {
     const updated = data.filter((i) => i.id !== id);
     setData(updated);
   };
-
-  const addHandler = (movie: IMovie) => {
-    setData([{ ...movie, id: `${data.length + 1}` }, ...data]);
+  console.log(convertMovies, 'movies in the')
+  const addHandler = (movie) => {
+    const { id, ...rest } = movie;
+    const body = {
+      ...rest, 
+      genres: [movie.genres],
+      tagline: movie.tagline || "comedy",
+      vote_average: +movie.vote_average,
+      budget: +movie.budget,
+      revenue: +movie.revenue,
+      runtime: +movie.runtime,
+    }
+    dispatch(addMovie(body));
   };
 
   const editHandler = (id: string) => {

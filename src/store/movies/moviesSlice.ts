@@ -1,3 +1,4 @@
+
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../index';
 
@@ -22,6 +23,14 @@ export const moviesSlice = createSlice({
       return {
         isLoading: false,
         movies: action.payload,
+      };
+    },
+    addMovie: (state, action: PayloadAction<IMovie>) => {
+      console.log(action, 'action in reduce3r')
+      console.log(state, 'state reducer')
+      return {
+        isLoading: false,
+        movies: [action.payload, ...state.movies],
       };
     },
     setIsLoading: (state, action: PayloadAction<boolean>) => {
@@ -65,7 +74,7 @@ export const moviesSlice = createSlice({
   }
 });
 
-export const { setMovies, setIsLoading } = moviesSlice.actions;
+export const { setMovies, setIsLoading, addMovie } = moviesSlice.actions;
 
 export const selectMovies = (state: RootState) => state.movies.movies;
 export const selectIsLoading = (state: RootState) => state.movies.isLoading;
