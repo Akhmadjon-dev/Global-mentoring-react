@@ -138,6 +138,7 @@ function FormComponent({
                                     value={values.poster_path}
                                     onchange={handleChange}
                                     marginRight="40px"
+                                    isValid={true}
                                 />
                                 <Input
                                     width="300px"
@@ -161,6 +162,7 @@ function FormComponent({
                                     value={values.genres[0]}
                                     onchange={handleChange}
                                     marginRight="40px"
+                                    isValid={true}
                                 />
                                 <Input
                                     width="300px"
@@ -180,6 +182,9 @@ function FormComponent({
                                 value={values.overview}
                                 onChange={handleChange}
                             />
+                            <div style={{color: "white"}}>
+                                <ErrorMessage name="overview" />
+                            </div>
                             <div className="row mt-20 justify-right mr-40">
                                 <Button type='reset' handler={resetHandler} bg="transparent" label="RESET" />
                                 <Button type="submit" bg="" label="SUBMIT" />
