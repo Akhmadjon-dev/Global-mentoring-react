@@ -1,3 +1,4 @@
+import { updateMovie } from './../thunks';
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../index';
@@ -26,8 +27,6 @@ export const moviesSlice = createSlice({
       };
     },
     addMovie: (state, action: PayloadAction<IMovie>) => {
-      console.log(action, 'action in reduce3r')
-      console.log(state, 'state reducer')
       return {
         isLoading: false,
         movies: [action.payload, ...state.movies],
@@ -70,6 +69,11 @@ export const moviesSlice = createSlice({
     builder.addCase(searchMovies.fulfilled, (state, {payload}) => {
       state.isLoading = false;
       state.movies = payload;
+    });
+    builder.addCase(updateMovie.fulfilled, (state, {payload}) => {
+      const updated = state.movies.map(item => item.id === payload.id ? payload : item);
+      state.isLoading = false;
+      state.movies = updated;
     });
   }
 });

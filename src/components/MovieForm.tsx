@@ -7,6 +7,8 @@ import { IForm } from './types';
 import { Modal as AntModal } from 'antd';
 import { Formik, Form, ErrorMessage } from 'formik';
 import * as Yup from "yup";
+import { useSelector } from 'react-redux';
+import { selectMovies } from '../store/movies/moviesSlice';
 
 const customStyles = {
     content: {
@@ -54,9 +56,16 @@ const FormSchema = Yup.object().shape({
 function FormComponent({
     isOpen,
     modalClose,
-    addMovie
+    addMovie,
+    editHandler,
+    isEditable,
+    movieIdForUpdate
 }: IForm) {
-
+    
+    const movies = useSelector(selectMovies);
+    const getValuesForUpdate = () => {
+        return movies.find(item => item.id === +movieIdForUpdate)
+    }
     function success() {
         AntModal.success({
             content: 'The movie has been added to database successfully ',
@@ -74,14 +83,14 @@ function FormComponent({
         >
             <StyledForm>
                 <Formik
-                    initialValues={initialValues}
+                    initialValues={isEditable ? getValuesForUpdate() : initialValues}
                     validationSchema={FormSchema}
                     onSubmit={(
                         values,
                         { setSubmitting, resetForm }
                         
                     ) => {
-                        addMovie(values)
+                        isEditable ? editHandler(values) : addMovie(values)
                         resetHandler = resetForm
                         modalClose()
                         success() 
@@ -99,7 +108,7 @@ function FormComponent({
                                     letterSpacing: "1px",
                                     marginBottom: "20px"
                                 }} className="form__title">
-                                    Add movie
+                                    {isEditable ? "Update movie" : "Add movie"}
                                 </div>
                                 <button onClick={modalClose} className="modal__btn-close">X</button>
                             </div>
@@ -143,11 +152,11 @@ function FormComponent({
                                 <Input
                                     width="300px"
                                     label="Rating"
-                                    name="vote_count"
-                                    id="vote_count"
+                                    name="vote_average"
+                                    id="vote_average"
                                     type="number"
                                     placeholder="Enter your rate"
-                                    value={values.vote_count}
+                                    value={`${values.vote_average}`}
                                     onchange={handleChange}
                                 />
                             </div>
@@ -171,7 +180,7 @@ function FormComponent({
                                     id="runtime"
                                     type="text"
                                     placeholder="Minutes"
-                                    value={values.runtime}
+                                    value={`${values.runtime}`}
                                     onchange={handleChange}
                                 />
                             </div>
@@ -187,7 +196,7 @@ function FormComponent({
                             </div>
                             <div className="row mt-20 justify-right mr-40">
                                 <Button type='reset' handler={resetHandler} bg="transparent" label="RESET" />
-                                <Button type="submit" bg="" label="SUBMIT" />
+                                <Button type="submit" bg="" label={isEditable ? 'Update' : 'Submit'} />
                             </div>
                         </Form>
                     )}

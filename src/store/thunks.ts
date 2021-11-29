@@ -42,3 +42,11 @@ export const addMovie = createAsyncThunk<IMovie[], IMovie>(
     return response.data;
   }
 ); 
+export const updateMovie = createAsyncThunk<IMovie, IMovie>(
+  "movies/put",
+  async (data: IMovie) => {
+    console.log('in the thunk', data)
+    const response: AxiosResponse<any> = await axios.put<any>(`/movies`, data);
+    return response.data;
+  }
+); 

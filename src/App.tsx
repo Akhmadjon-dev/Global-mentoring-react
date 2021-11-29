@@ -8,11 +8,13 @@ import Movies from "./containers/Movies";
 import { StyledApp } from "./styles/App.styled";
 import MovieDetails from "./components/MovieDetails";
 import { useAppDispatch } from './store/hooks';
-import { addMovie, fetchMovies, filterMovies, searchMovies, sortByMovies } from './store/thunks';
+import { addMovie, fetchMovies, filterMovies, searchMovies, sortByMovies, updateMovie } from './store/thunks';
 import { selectMovies } from './store/movies/moviesSlice';
 
 function App() {
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+  const [isEditable, setIsEditable] = useState<boolean>(false);
+  const [moivieIdForUpdate, setMoivieIdForUpdate] = useState<string>('');
   const [data, setData] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState<IMovie | null>();
   const dispatch: any = useAppDispatch();
@@ -28,8 +30,8 @@ function App() {
     const updated = data.filter((i) => i.id !== id);
     setData(updated);
   };
-  console.log(convertMovies, 'movies in the')
-  const addHandler = (movie) => {
+
+  const converMovieToRequest = (movie) => {
     const { id, ...rest } = movie;
     const body = {
       ...rest, 
@@ -40,13 +42,25 @@ function App() {
       revenue: +movie.revenue,
       runtime: +movie.runtime,
     }
+    return body
+  }
+
+  const addHandler = (movie) => {
+    const body = converMovieToRequest(movie)
     dispatch(addMovie(body));
   };
 
-  const editHandler = (id: string) => {
-    // I will implement this one with API
-    console.log("edit handler");
+  const getMovieIdForUpdate = (id: string) => {
+    setModalIsOpen(true)
+    setIsEditable(true)
+    setMoivieIdForUpdate(id)
   };
+
+  const editHandler = (values) => {
+    console.log(values, 'editHandler');
+    const body = {...values, genres: [values.genres]}
+    dispatch(updateMovie(body))
+  }
 
   const filterHandler = (id: string): any => {
     if (id === "all") {
@@ -69,7 +83,6 @@ function App() {
     dispatch(sortByMovies(id));
   };
 
-
   const searchHandler = (e: any): any => {
     e.preventDefault();
     const searchValue = e.target.value;
@@ -89,11 +102,14 @@ function App() {
         addMovie={addHandler}
         isOpen={modalIsOpen}
         modalClose={() => setModalIsOpen(false)}
+        editHandler={editHandler}
+        isEditable={isEditable}
+        movieIdForUpdate={moivieIdForUpdate}
       />
       <Movies
         selectMovieHandler={selectedMovieHandler}
         filterMovies={filterHandler}
-        edit={editHandler}
+        edit={getMovieIdForUpdate}
         add={addHandler}
         deleteHandler={deleteMovie}
         data={convertMovies}

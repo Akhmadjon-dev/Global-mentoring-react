@@ -6,7 +6,10 @@ export interface ITabs {
 export interface IForm {
     isOpen: boolean;
     modalClose: () => void;
-    addMovie: any
+    addMovie: any;
+    editHandler: any;
+    isEditable: boolean;
+    movieIdForUpdate: string;
 }
 export interface IInput {
     value: string;
