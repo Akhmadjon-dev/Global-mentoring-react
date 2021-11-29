@@ -37,7 +37,6 @@ export const searchMovies = createAsyncThunk<IMovie[], string>(
 export const addMovie = createAsyncThunk<IMovie[], IMovie>(
   "movies/add",
   async (movie: IMovie) => {
-    console.log(movie, 'in the thunk')
     const response: AxiosResponse<any> = await axios.post<any>(`/movies`, movie);
     return response.data;
   }
@@ -45,8 +44,14 @@ export const addMovie = createAsyncThunk<IMovie[], IMovie>(
 export const updateMovie = createAsyncThunk<IMovie, IMovie>(
   "movies/put",
   async (data: IMovie) => {
-    console.log('in the thunk', data)
     const response: AxiosResponse<any> = await axios.put<any>(`/movies`, data);
+    return response.data;
+  }
+); 
+export const deleteMovie = createAsyncThunk<IMovie, string>(
+  "movies/delete",
+  async (id: string) => {
+    const response: AxiosResponse<any> = await axios.delete<any>(`/movies/${id}`);
     return response.data;
   }
 ); 

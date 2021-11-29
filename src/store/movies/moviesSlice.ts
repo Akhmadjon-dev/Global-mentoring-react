@@ -1,4 +1,4 @@
-import { updateMovie } from './../thunks';
+import { deleteMovie, updateMovie } from './../thunks';
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../index';
@@ -72,6 +72,11 @@ export const moviesSlice = createSlice({
     });
     builder.addCase(updateMovie.fulfilled, (state, {payload}) => {
       const updated = state.movies.map(item => item.id === payload.id ? payload : item);
+      state.isLoading = false;
+      state.movies = updated;
+    });
+    builder.addCase(deleteMovie.fulfilled, (state, {payload}) => {
+      const updated = state.movies.filter(item => item.id !== payload.id);
       state.isLoading = false;
       state.movies = updated;
     });

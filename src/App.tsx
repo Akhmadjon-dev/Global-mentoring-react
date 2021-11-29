@@ -8,7 +8,7 @@ import Movies from "./containers/Movies";
 import { StyledApp } from "./styles/App.styled";
 import MovieDetails from "./components/MovieDetails";
 import { useAppDispatch } from './store/hooks';
-import { addMovie, fetchMovies, filterMovies, searchMovies, sortByMovies, updateMovie } from './store/thunks';
+import { addMovie, deleteMovie, fetchMovies, filterMovies, searchMovies, sortByMovies, updateMovie } from './store/thunks';
 import { selectMovies } from './store/movies/moviesSlice';
 
 function App() {
@@ -26,9 +26,9 @@ function App() {
   
   const convertMovies = useSelector(selectMovies);
 
-  const deleteMovie = (id: any) => {
-    const updated = data.filter((i) => i.id !== id);
-    setData(updated);
+  const deleteHandler = (id: any) => {
+    dispatch(deleteMovie(id))
+    dispatch(fetchMovies())
   };
 
   const converMovieToRequest = (movie) => {
@@ -111,7 +111,7 @@ function App() {
         filterMovies={filterHandler}
         edit={getMovieIdForUpdate}
         add={addHandler}
-        deleteHandler={deleteMovie}
+        deleteHandler={deleteHandler}
         data={convertMovies}
         sortMovies={sortHandler}
       />
