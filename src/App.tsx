@@ -10,7 +10,7 @@ import MovieDetails from "./components/MovieDetails";
 import { useAppDispatch } from './store/hooks';
 import { addMovie, deleteMovie, fetchMovies, filterMovies, searchMovies, sortByMovies, updateMovie } from './store/thunks';
 import { selectMovies } from './store/movies/moviesSlice';
-import { Redirect, Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch, useHistory } from "react-router-dom";
 import Main from "./containers/Main";
 import Search from "./containers/Sarch";
 
@@ -21,10 +21,10 @@ function App() {
   const [data, setData] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState<IMovie | null>();
   const dispatch: any = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(fetchMovies());
-  }, [dispatch]);
+  const history :any = useHistory()
+  // useEffect(() => {
+  //   dispatch(fetchMovies());
+  // }, [dispatch]);
 
 
   const convertMovies = useSelector(selectMovies);
@@ -88,7 +88,9 @@ function App() {
 
   const searchHandler = (e: any): any => {
     e.preventDefault();
-    const searchValue = e.target.value;
+    const searchValue = e.target[0].value;
+    history.push('/search/'+ searchValue);
+    console.log(searchValue);
     dispatch(searchMovies(searchValue));
   };
 
@@ -96,20 +98,6 @@ function App() {
     <StyledApp>
       <Switch>
         <Route path="/search" render={(props) => (
-          <Search  
-            {...props} 
-            searchHandler={searchHandler} 
-            modalOpen={() => setModalIsOpen(true)}  
-            selectMovieHandler={selectedMovieHandler}
-            filterMovies={filterHandler}
-            edit={getMovieIdForUpdate}
-            add={addHandler}
-            deleteHandler={deleteHandler}
-            data={convertMovies}
-            sortMovies={sortHandler}
-          />
-          )} />
-        <Route path="/m" render={(props) => (
           <Main  
             {...props} 
             searchHandler={searchHandler} 
@@ -123,7 +111,21 @@ function App() {
             sortMovies={sortHandler}
           />
           )} />
-        <Route path="/movies" render={(props) => (
+        <Route path="/search/:query" render={(props) => (
+          <Search  
+            {...props} 
+            searchHandler={searchHandler} 
+            modalOpen={() => setModalIsOpen(true)}  
+            selectMovieHandler={selectedMovieHandler}
+            filterMovies={filterHandler}
+            edit={getMovieIdForUpdate}
+            add={addHandler}
+            deleteHandler={deleteHandler}
+            data={convertMovies}
+            sortMovies={sortHandler}
+          />
+          )} />
+        {/* <Route path="/movies" render={(props) => (
             <Movies
               {...props}
               selectMovieHandler={selectedMovieHandler}
@@ -134,7 +136,7 @@ function App() {
               data={convertMovies}
               sortMovies={sortHandler}
             />)
-        } />
+        } /> */}
         {/* {selectedMovie && (
           <MovieDetails
           data={selectedMovie}

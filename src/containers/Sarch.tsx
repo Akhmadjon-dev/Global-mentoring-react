@@ -1,10 +1,7 @@
-import Header  from './Header/index'
 import React, { useEffect } from 'react'
+import { useLocation } from 'react-router-dom';
+import Header  from './Header/index'
 import Movies from './Movies'
-import { useAppDispatch } from '../store/hooks'
-import { SearchPopularMovies } from '../store/thunks'
-import { useSelector } from 'react-redux'
-import { selectMovies } from '../store/movies/moviesSlice'
 
 function Search({
     searchHandler,
@@ -14,7 +11,8 @@ function Search({
     edit,
     add,
     deleteHandler,
-    sortMovies
+    sortMovies,
+    data
 }:{
     searchHandler: (e: any) => void;
     modalOpen: any;
@@ -26,13 +24,12 @@ function Search({
     data: any;
     sortMovies: any;
 }) {
-    const dispatch: any = useAppDispatch()
+    const location: any = useLocation();
+    
     useEffect(() => {
-        dispatch(SearchPopularMovies())
+        console.log(location)
     }, [])
-
-    const data = useSelector(selectMovies);
-
+    
     return (
         <React.Fragment>
             <Header searchHandler={searchHandler} modalOpen={modalOpen} />
