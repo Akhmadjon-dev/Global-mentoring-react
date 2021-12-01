@@ -6,13 +6,16 @@ import reportWebVitals from './reportWebVitals';
 import ErrorBoundary from './components/ErrorBoundary';
 import { Provider } from 'react-redux';
 import store from './store';
+import { BrowserRouter } from 'react-router-dom';
 
 
 ReactDOM.render(
   <React.StrictMode>
     <ErrorBoundary>
       <Provider store={store}>
-        <App />
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
       </Provider>
     </ErrorBoundary>
   </React.StrictMode>,

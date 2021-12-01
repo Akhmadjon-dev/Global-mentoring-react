@@ -10,6 +10,9 @@ import MovieDetails from "./components/MovieDetails";
 import { useAppDispatch } from './store/hooks';
 import { addMovie, deleteMovie, fetchMovies, filterMovies, searchMovies, sortByMovies, updateMovie } from './store/thunks';
 import { selectMovies } from './store/movies/moviesSlice';
+import { Redirect, Route, Switch } from "react-router-dom";
+import Main from "./containers/Main";
+import Search from "./containers/Sarch";
 
 function App() {
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
@@ -23,7 +26,7 @@ function App() {
     dispatch(fetchMovies());
   }, [dispatch]);
 
-  
+
   const convertMovies = useSelector(selectMovies);
 
   const deleteHandler = (id: any) => {
@@ -34,7 +37,7 @@ function App() {
   const converMovieToRequest = (movie) => {
     const { id, ...rest } = movie;
     const body = {
-      ...rest, 
+      ...rest,
       genres: [movie.genres],
       tagline: movie.tagline || "comedy",
       vote_average: +movie.vote_average,
@@ -58,7 +61,7 @@ function App() {
 
   const editHandler = (values) => {
     console.log(values, 'editHandler');
-    const body = {...values, genres: [values.genres]}
+    const body = { ...values, genres: [values.genres] }
     dispatch(updateMovie(body))
   }
 
@@ -88,34 +91,68 @@ function App() {
     const searchValue = e.target.value;
     dispatch(searchMovies(searchValue));
   };
-  
+
   return (
     <StyledApp>
-      {!selectedMovie && <Header searchHandler={searchHandler} modalOpen={() => setModalIsOpen(true)} />}
-      {selectedMovie && (
-        <MovieDetails
+      <Switch>
+        <Route path="/search" render={(props) => (
+          <Search  
+            {...props} 
+            searchHandler={searchHandler} 
+            modalOpen={() => setModalIsOpen(true)}  
+            selectMovieHandler={selectedMovieHandler}
+            filterMovies={filterHandler}
+            edit={getMovieIdForUpdate}
+            add={addHandler}
+            deleteHandler={deleteHandler}
+            data={convertMovies}
+            sortMovies={sortHandler}
+          />
+          )} />
+        <Route path="/m" render={(props) => (
+          <Main  
+            {...props} 
+            searchHandler={searchHandler} 
+            modalOpen={() => setModalIsOpen(true)}  
+            selectMovieHandler={selectedMovieHandler}
+            filterMovies={filterHandler}
+            edit={getMovieIdForUpdate}
+            add={addHandler}
+            deleteHandler={deleteHandler}
+            data={convertMovies}
+            sortMovies={sortHandler}
+          />
+          )} />
+        <Route path="/movies" render={(props) => (
+            <Movies
+              {...props}
+              selectMovieHandler={selectedMovieHandler}
+              filterMovies={filterHandler}
+              edit={getMovieIdForUpdate}
+              add={addHandler}
+              deleteHandler={deleteHandler}
+              data={convertMovies}
+              sortMovies={sortHandler}
+            />)
+        } />
+        {/* {selectedMovie && (
+          <MovieDetails
           data={selectedMovie}
           selectedMovieHandler={selectedMovieHandler}
-        />
-      )}
-      <Form
-        addMovie={addHandler}
-        isOpen={modalIsOpen}
-        modalClose={() => setModalIsOpen(false)}
-        editHandler={editHandler}
-        isEditable={isEditable}
-        movieIdForUpdate={moivieIdForUpdate}
-      />
-      <Movies
-        selectMovieHandler={selectedMovieHandler}
-        filterMovies={filterHandler}
-        edit={getMovieIdForUpdate}
-        add={addHandler}
-        deleteHandler={deleteHandler}
-        data={convertMovies}
-        sortMovies={sortHandler}
-      />
-      <Logo />
+          />
+          )}
+          <Form
+          addMovie={addHandler}
+          isOpen={modalIsOpen}
+          modalClose={() => setModalIsOpen(false)}
+          editHandler={editHandler}
+          isEditable={isEditable}
+          movieIdForUpdate={moivieIdForUpdate}
+          />
+          
+        <Logo /> */}
+        <Redirect from="/" to="/search" />
+      </Switch>
     </StyledApp>
   );
 }

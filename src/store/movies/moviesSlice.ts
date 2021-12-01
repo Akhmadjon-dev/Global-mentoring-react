@@ -1,4 +1,4 @@
-import { deleteMovie, updateMovie } from './../thunks';
+import { deleteMovie, updateMovie, SearchPopularMovies } from './../thunks';
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../index';
@@ -48,7 +48,13 @@ export const moviesSlice = createSlice({
       state.isLoading = false;
       state.movies = payload;
     });
-
+    builder.addCase(SearchPopularMovies.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(SearchPopularMovies.fulfilled, (state, {payload}) => {
+      state.isLoading = false;
+      state.movies = payload;
+    });
     builder.addCase(filterMovies.pending, (state) => {
       state.isLoading = true;
     });
