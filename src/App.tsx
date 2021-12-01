@@ -63,7 +63,7 @@ function App() {
     console.log(values, 'editHandler');
     const body = { ...values, genres: [values.genres] }
     dispatch(updateMovie(body))
-  }
+  };
 
   const filterHandler = (id: string): any => {
     if (id === "all") {
@@ -90,8 +90,6 @@ function App() {
     e.preventDefault();
     const searchValue = e.target[0].value;
     history.push('/search/'+ searchValue);
-    console.log(searchValue);
-    dispatch(searchMovies(searchValue));
   };
 
   return (

@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { ITabs } from './types'
 import { sortBy, tabs } from './utility'
 
@@ -15,9 +16,9 @@ function Tabs({ filterMovies, sortMovies }: { filterMovies: (id: string) => {}, 
 
     const renderTabs = () => {
         return tablsList.map((tab, index) => (
-            <li onClick={() => handleClick(tab.id)} key={tab.id} className={tab.id === activeTab ? ' tab--active tab' : "tab"}>
+            <Link to={'/search/genre?'+tab.id} key={tab.id} className={tab.id === activeTab ? ' tab--active tab' : "tab"}>
                 {tab.title}
-            </li>
+            </Link>
         ))
     }
 
