@@ -35,6 +35,9 @@ function Tabs({ filterMovies, sortMovies }: { filterMovies: (id: string) => {}, 
             <div className="sort-by">
                 <label>Sort by</label>
                 <select onChange={selectHandler}>
+                    <option key="firstOne" value="">
+                        Select to sort
+                    </option>
                     {
                         sortBy.map(item => (
                             <option key={item.id} value={item.id}>

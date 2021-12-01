@@ -83,7 +83,7 @@ function App() {
   };
 
   const sortHandler = (id: string): any => {
-    dispatch(sortByMovies(id));
+    history.push('/search/sortBy?'+ id);
   };
 
   const searchHandler = (e: any): any => {
