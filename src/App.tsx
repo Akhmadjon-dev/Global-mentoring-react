@@ -158,21 +158,17 @@ function App() {
               sortMovies={sortHandler}
             />)
         } /> */}
-        {/* {selectedMovie && (
-         
-          )}
-          <Form
+      </Switch>
+        <Logo />        
+        <Form
           addMovie={addHandler}
           isOpen={modalIsOpen}
           modalClose={() => setModalIsOpen(false)}
           editHandler={editHandler}
           isEditable={isEditable}
           movieIdForUpdate={moivieIdForUpdate}
-          />
-          
-        */}
-      </Switch>
-        <Logo /> 
+        />          
+       
     </StyledApp>
   );
 }
