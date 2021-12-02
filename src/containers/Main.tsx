@@ -12,7 +12,7 @@ import {
 import { useSelector } from "react-redux";
 import { selectMovies } from "../store/movies/moviesSlice";
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 function Main({
   searchHandler,
@@ -36,12 +36,12 @@ function Main({
 }) {
   const dispatch: any = useAppDispatch();
   const location: any = useLocation();
+  const history: any = useHistory();
+  const data = useSelector(selectMovies);
   const query = location.pathname.split("/")[2];
+  const movieId = location.pathname.split("=:")[1];
   let filterType = location.search.split("").slice(1).join("");
   const search = location.search;
-  useEffect(() => {
-    dispatch(SearchPopularMovies());
-  }, []);
 
   useEffect(() => {
     if (location.pathname.includes("genre")) {
@@ -52,12 +52,15 @@ function Main({
       }
     } else if (location.pathname.includes("sortBy")) {
       dispatch(sortByMovies(filterType));
-    } else {
+    } else if (location.pathname.includes("movie=:")) {
+        history.push('/movies/'+ movieId)
+      } else if(query) {
       dispatch(searchMovies(query));
+    }else{
+      dispatch(SearchPopularMovies());
     }
   }, [query, search]);
 
-  const data = useSelector(selectMovies);
 
   return (
     <React.Fragment>

@@ -1,3 +1,4 @@
+import { getMovies } from './movies/_actions';
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import { IMovie } from "./movies/types";
@@ -59,6 +60,13 @@ export const deleteMovie = createAsyncThunk<IMovie, string>(
   "movies/delete",
   async (id: string) => {
     const response: AxiosResponse<any> = await axios.delete<any>(`/movies/${id}`);
+    return response.data;
+  }
+); 
+export const getMovie = createAsyncThunk<IMovie, string>(
+  "movies/getOne",
+  async (id: string) => {
+    const response: AxiosResponse<any> = await axios.get<any>(`/movies/${id}`);
     return response.data;
   }
 ); 

@@ -136,7 +136,13 @@ function App() {
             />
           )}
         />
-        {/* <Route path="/movies" render={(props) => (
+        <Route path="/movies/:id" render={(props) => (
+            <MovieDetails
+            data={selectedMovie}
+            selectedMovieHandler={selectedMovieHandler}
+            />)
+        } />
+        {/* <Route path="/movies/:id" render={(props) => (
             <Movies
               {...props}
               selectMovieHandler={selectedMovieHandler}
@@ -149,10 +155,7 @@ function App() {
             />)
         } /> */}
         {/* {selectedMovie && (
-          <MovieDetails
-          data={selectedMovie}
-          selectedMovieHandler={selectedMovieHandler}
-          />
+         
           )}
           <Form
           addMovie={addHandler}
