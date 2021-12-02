@@ -21,6 +21,7 @@ import { selectMovies } from "./store/movies/moviesSlice";
 import { Redirect, Route, Switch, useHistory } from "react-router-dom";
 import Main from "./containers/Main";
 import Search from "./containers/Sarch";
+import NotFound from "./components/NotFound";
 
 function App() {
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
@@ -142,6 +143,9 @@ function App() {
             selectedMovieHandler={selectedMovieHandler}
             />)
         } />
+        <Route path="/404" component={NotFound} />
+        <Redirect from="/" to="/search" />
+        <Redirect from="*" to="/404" />
         {/* <Route path="/movies/:id" render={(props) => (
             <Movies
               {...props}
@@ -166,9 +170,9 @@ function App() {
           movieIdForUpdate={moivieIdForUpdate}
           />
           
-        <Logo /> */}
-        <Redirect from="/" to="/search" />
+        */}
       </Switch>
+        <Logo /> 
     </StyledApp>
   );
 }
