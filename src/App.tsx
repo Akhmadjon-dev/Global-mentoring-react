@@ -146,18 +146,6 @@ function App() {
         <Route path="/404" component={NotFound} />
         <Redirect from="/" to="/search" />
         <Redirect from="*" to="/404" />
-        {/* <Route path="/movies/:id" render={(props) => (
-            <Movies
-              {...props}
-              selectMovieHandler={selectedMovieHandler}
-              filterMovies={filterHandler}
-              edit={getMovieIdForUpdate}
-              add={addHandler}
-              deleteHandler={deleteHandler}
-              data={convertMovies}
-              sortMovies={sortHandler}
-            />)
-        } /> */}
       </Switch>
         <Logo />        
         <Form
