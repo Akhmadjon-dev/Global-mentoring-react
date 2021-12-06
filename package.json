@@ -40,8 +40,26 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest --no-cache",
+    "test:coverage": "jest --coverage --no-cache",
+    "test-watch": "jest --watch",
     "eject": "react-scripts eject"
+  },
+  "jest": {
+    "verbose": true,
+    "testEnvironment": "jsdom",
+    "testMatch": [
+      "<rootDir>/src/**/*.test.tsx",
+      "<rootDir>/src/**/*.test.ts"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
   },
   "eslintConfig": {
     "extends": [

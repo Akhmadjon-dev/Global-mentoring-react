@@ -66,10 +66,10 @@ function Card({ movie, deleteHandler, edit, selectMovieHandler }: { movie: IMovi
       </div>
       <div className="card__info">
         <div className="card__row">
-          <h2 className="card__title">
+          <h2 data-test="title" className="card__title">
             {movie.title}
           </h2>
-          <p className="card__release-date">
+          <p data-test="release-date" className="card__release-date">
             {movie.release_date}
           </p>
         </div>
