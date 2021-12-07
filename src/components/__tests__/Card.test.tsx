@@ -58,36 +58,4 @@ describe('Card', () => {
         expect(container.querySelector("[data-test='runtime']")).toBeInTheDocument()
         // expect(container.querySelector("[data-test='runtime']")).toBe("108")
     })
-    
-    // it('should render an input with a label', () => {
-    //     render(<Input {...props} label="test" />)
-    //     expect(screen.getByLabelText('test')).toBeInTheDocument()
-    // })
-    
-    // it('should render an input with a placeholder', () => {
-    //     render(<Input {...props} placeholder="test" />)
-    //     expect(screen.getByPlaceholderText('test')).toBeInTheDocument()
-    // })
-    
-    // it('should render an input with a value', () => {
-    //     render(<Input {...props} value="test" />)
-    //     expect(screen.getByDisplayValue('test')).toBeInTheDocument()
-    // })
-    
-    // it('should render an input with a type', () => {
-    //     render(<Input {...props} type="text" />)
-    //     expect(screen.getByRole('textbox')).toHaveAttribute('type', 'text')
-    // })
-    
-    // it('should render an input with a name', () => {
-    //     render(<Input {...props} name="test" />)
-    //     expect(screen.getByRole('text')).toHaveAttribute('name', 'test')
-    // })    
-    
-    // it('should render an input with a onChange attribute', () => {
-    //     const mockFn = jest.fn()
-    //     render(<Input {...props} onchange={mockFn} />)
-    //     userEvent.type(screen.getByRole('textbox'), 'test')
-    //     expect(mockFn).toHaveBeenCalled()
-    // })
-})  
+})  ;
