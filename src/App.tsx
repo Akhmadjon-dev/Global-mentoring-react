@@ -156,7 +156,6 @@ function App() {
           isEditable={isEditable}
           movieIdForUpdate={moivieIdForUpdate}
         />          
-       
     </StyledApp>
   );
 }

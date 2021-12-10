@@ -4,8 +4,8 @@
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.2",
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
+    "@testing-library/jest-dom": "^5.15.1",
+    "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^12.1.10",
     "@types/jest": "^26.0.15",
     "@types/node": "^12.0.0",
@@ -40,8 +40,26 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest --no-cache",
+    "test:coverage": "jest --coverage --no-cache",
+    "test-watch": "jest --watch",
     "eject": "react-scripts eject"
+  },
+  "jest": {
+    "verbose": true,
+    "testEnvironment": "jsdom",
+    "testMatch": [
+      "<rootDir>/src/**/*.test.tsx",
+      "<rootDir>/src/**/*.test.ts"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
   },
   "eslintConfig": {
     "extends": [
@@ -62,7 +80,9 @@
     ]
   },
   "devDependencies": {
+    "@babel/preset-typescript": "^7.16.0",
     "@types/react-modal": "^3.12.1",
+    "cypress": "^9.1.1",
     "react-modal": "^3.14.3"
   }
 }

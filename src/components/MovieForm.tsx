@@ -97,7 +97,7 @@ function FormComponent({
                      }}
                 >
                     {({ errors, touched, values, handleChange, handleSubmit }) => (
-                        <Form onSubmit={handleSubmit}>
+                        <Form id='form' onSubmit={handleSubmit}>
                             <div className="row">
                                 <div style={{
                                     color: "#fff",

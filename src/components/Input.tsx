@@ -23,6 +23,7 @@ export default function Input({
                     {label}
                 </label>
                  <Field 
+                    data-test={name}
                     as="select" 
                     name={name}
                     id={id}
@@ -46,6 +47,7 @@ export default function Input({
                 {label}
             </label>
             <Field
+                data-test={name}
                 name={name}
                 id={id}
                 type={type}
