@@ -3,10 +3,13 @@ import cardImage from '../assets/img/card.png';
 import { IMovie } from './types';
 import { Button, Dropdown, Menu, Modal } from 'antd';
 import { DownOutlined, DeleteOutlined, ExclamationCircleOutlined, EditOutlined } from '@ant-design/icons';
+import { useHistory } from 'react-router-dom';
 
 const { confirm } = Modal;
 
 function Card({ movie, deleteHandler, edit, selectMovieHandler }: { movie: IMovie, selectMovieHandler: (id: string) => {}, deleteHandler: any, edit: any }) {
+
+  const history: any = useHistory();
 
   const editHandler = (e: { preventDefault: () => void, stopPropagation: () => void }) => {
     e.preventDefault();
@@ -50,7 +53,7 @@ function Card({ movie, deleteHandler, edit, selectMovieHandler }: { movie: IMovi
     </Menu>
   );
   return (
-    <CardStyled onClick={() => selectMovieHandler(`${movie.id}`)}>
+    <CardStyled onClick={() => history.push(`/movies/${movie.id}`)}>
       <div className="card__img">
         <img src={movie.poster_path ? movie.poster_path : cardImage} alt="" />
         <div className="card__btns">

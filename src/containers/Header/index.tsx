@@ -21,14 +21,14 @@ export default function Header({
                     + Add Movie
                 </button>
             </div>
-            <div className="header__body">
+            <form onSubmit={searchHandler} className="header__body">
                 <div className="header__search-box">
-                    <input onChange={searchHandler} type="text" className="header__search-input" placeholder="What do you want to watch?" />
+                    <input name="query" type="text" className="header__search-input" placeholder="What do you want to watch?" />
                     <button className="header__search-button">
                         Search
                     </button>
                 </div>
-            </div>
+            </form>
         </StyledHeader>
     )
 

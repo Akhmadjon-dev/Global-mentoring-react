@@ -36,5 +36,9 @@ export const sortBy = [
     {
         id: 'revenue',
         title: 'Revenue',
+    },
+    {
+        id: 'name',
+        title: 'Name',
     }
 ]

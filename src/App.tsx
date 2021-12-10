@@ -7,60 +7,71 @@ import Header from "./containers/Header";
 import Movies from "./containers/Movies";
 import { StyledApp } from "./styles/App.styled";
 import MovieDetails from "./components/MovieDetails";
-import { useAppDispatch } from './store/hooks';
-import { addMovie, deleteMovie, fetchMovies, filterMovies, searchMovies, sortByMovies, updateMovie } from './store/thunks';
-import { selectMovies } from './store/movies/moviesSlice';
+import { useAppDispatch } from "./store/hooks";
+import {
+  addMovie,
+  deleteMovie,
+  fetchMovies,
+  filterMovies,
+  searchMovies,
+  sortByMovies,
+  updateMovie,
+} from "./store/thunks";
+import { selectMovies } from "./store/movies/moviesSlice";
+import { Redirect, Route, Switch, useHistory } from "react-router-dom";
+import Main from "./containers/Main";
+import Search from "./containers/Sarch";
+import NotFound from "./components/NotFound";
 
 function App() {
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const [isEditable, setIsEditable] = useState<boolean>(false);
-  const [moivieIdForUpdate, setMoivieIdForUpdate] = useState<string>('');
+  const [moivieIdForUpdate, setMoivieIdForUpdate] = useState<string>("");
   const [data, setData] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState<IMovie | null>();
   const dispatch: any = useAppDispatch();
+  const history: any = useHistory();
+  // useEffect(() => {
+  //   dispatch(fetchMovies());
+  // }, [dispatch]);
 
-  useEffect(() => {
-    dispatch(fetchMovies());
-  }, [dispatch]);
-
-  
   const convertMovies = useSelector(selectMovies);
 
   const deleteHandler = (id: any) => {
-    dispatch(deleteMovie(id))
-    dispatch(fetchMovies())
+    dispatch(deleteMovie(id));
+    dispatch(fetchMovies());
   };
 
   const converMovieToRequest = (movie) => {
     const { id, ...rest } = movie;
     const body = {
-      ...rest, 
+      ...rest,
       genres: [movie.genres],
       tagline: movie.tagline || "comedy",
       vote_average: +movie.vote_average,
       budget: +movie.budget,
       revenue: +movie.revenue,
       runtime: +movie.runtime,
-    }
-    return body
-  }
+    };
+    return body;
+  };
 
   const addHandler = (movie) => {
-    const body = converMovieToRequest(movie)
+    const body = converMovieToRequest(movie);
     dispatch(addMovie(body));
   };
 
   const getMovieIdForUpdate = (id: string) => {
-    setModalIsOpen(true)
-    setIsEditable(true)
-    setMoivieIdForUpdate(id)
+    setModalIsOpen(true);
+    setIsEditable(true);
+    setMoivieIdForUpdate(id);
   };
 
   const editHandler = (values) => {
-    console.log(values, 'editHandler');
-    const body = {...values, genres: [values.genres]}
-    dispatch(updateMovie(body))
-  }
+    console.log(values, "editHandler");
+    const body = { ...values, genres: [values.genres] };
+    dispatch(updateMovie(body));
+  };
 
   const filterHandler = (id: string): any => {
     if (id === "all") {
@@ -80,42 +91,72 @@ function App() {
   };
 
   const sortHandler = (id: string): any => {
-    dispatch(sortByMovies(id));
+    history.push("/search/sortBy?" + id);
   };
 
   const searchHandler = (e: any): any => {
     e.preventDefault();
-    const searchValue = e.target.value;
-    dispatch(searchMovies(searchValue));
+    const searchValue = e.target[0].value;
+    history.push("/search/" + searchValue);
   };
-  
+
   return (
     <StyledApp>
-      {!selectedMovie && <Header searchHandler={searchHandler} modalOpen={() => setModalIsOpen(true)} />}
-      {selectedMovie && (
-        <MovieDetails
-          data={selectedMovie}
-          selectedMovieHandler={selectedMovieHandler}
+      <Switch>
+        <Route
+          path="/search"
+          render={(props) => (
+            <Main
+              {...props}
+              searchHandler={searchHandler}
+              modalOpen={() => setModalIsOpen(true)}
+              selectMovieHandler={selectedMovieHandler}
+              filterMovies={filterHandler}
+              edit={getMovieIdForUpdate}
+              add={addHandler}
+              deleteHandler={deleteHandler}
+              data={convertMovies}
+              sortMovies={sortHandler}
+            />
+          )}
         />
-      )}
-      <Form
-        addMovie={addHandler}
-        isOpen={modalIsOpen}
-        modalClose={() => setModalIsOpen(false)}
-        editHandler={editHandler}
-        isEditable={isEditable}
-        movieIdForUpdate={moivieIdForUpdate}
-      />
-      <Movies
-        selectMovieHandler={selectedMovieHandler}
-        filterMovies={filterHandler}
-        edit={getMovieIdForUpdate}
-        add={addHandler}
-        deleteHandler={deleteHandler}
-        data={convertMovies}
-        sortMovies={sortHandler}
-      />
-      <Logo />
+        <Route
+          path="/search/:query"
+          render={(props) => (
+            <Search
+              {...props}
+              searchHandler={searchHandler}
+              modalOpen={() => setModalIsOpen(true)}
+              selectMovieHandler={selectedMovieHandler}
+              filterMovies={filterHandler}
+              edit={getMovieIdForUpdate}
+              add={addHandler}
+              deleteHandler={deleteHandler}
+              data={convertMovies}
+              sortMovies={sortHandler}
+            />
+          )}
+        />
+        <Route path="/movies/:id" render={(props) => (
+            <MovieDetails
+            data={selectedMovie}
+            selectedMovieHandler={selectedMovieHandler}
+            />)
+        } />
+        <Route path="/404" component={NotFound} />
+        <Redirect from="/" to="/search" />
+        <Redirect from="*" to="/404" />
+      </Switch>
+        <Logo />        
+        <Form
+          addMovie={addHandler}
+          isOpen={modalIsOpen}
+          modalClose={() => setModalIsOpen(false)}
+          editHandler={editHandler}
+          isEditable={isEditable}
+          movieIdForUpdate={moivieIdForUpdate}
+        />          
+       
     </StyledApp>
   );
 }
