@@ -1,3 +1,4 @@
+import { ErrorMessage, Field } from 'formik'
 import React from 'react'
 import { StyledInput } from '../styles/Input.styled'
 import { IInput } from './types'
@@ -13,6 +14,7 @@ export default function Input({
     width,
     marginRight,
     height,
+    isValid,
 }: IInput) {
     if (type === 'select') {
         return (
@@ -20,19 +22,21 @@ export default function Input({
                 <label htmlFor={id}>
                     {label}
                 </label>
-                <select
-
+                 <Field 
+                    as="select" 
                     name={name}
                     id={id}
                     placeholder={placeholder}
                     value={value}
                     onChange={onchange}
-                >
+                    >
                     <option value="documentary">Documentary</option>
                     <option value="comedy">Comedy</option>
                     <option value="horror">Horror</option>
                     <option value="crime">Crime</option>
-                </select>
+                </Field>
+
+                {isValid && <ErrorMessage name={name} />}
             </StyledInput>
         )
     }
@@ -41,15 +45,16 @@ export default function Input({
             <label htmlFor={id}>
                 {label}
             </label>
-            <input
-
+            <Field
                 name={name}
                 id={id}
                 type={type}
                 placeholder={placeholder}
                 value={value}
                 onChange={onchange}
-            />
+                />
+
+            {isValid && <ErrorMessage name={name} />}
         </StyledInput>
     )
 }

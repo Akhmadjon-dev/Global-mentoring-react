@@ -1,20 +1,16 @@
-import React from 'react'
 import CardStyled from '../styles/Card.styled'
 import cardImage from '../assets/img/card.png';
 import { IMovie } from './types';
 import { Button, Dropdown, Menu, Modal } from 'antd';
 import { DownOutlined, DeleteOutlined, ExclamationCircleOutlined, EditOutlined } from '@ant-design/icons';
 
-
 const { confirm } = Modal;
-
-
-
 
 function Card({ movie, deleteHandler, edit, selectMovieHandler }: { movie: IMovie, selectMovieHandler: (id: string) => {}, deleteHandler: any, edit: any }) {
 
-  const editHandler = (e: { preventDefault: () => void; }) => {
+  const editHandler = (e: { preventDefault: () => void, stopPropagation: () => void }) => {
     e.preventDefault();
+    e.stopPropagation();
     edit(movie.id)
   }
 
@@ -45,7 +41,7 @@ function Card({ movie, deleteHandler, edit, selectMovieHandler }: { movie: IMovi
         <Button onClick={editHandler} type="dashed">
           <EditOutlined />
         </Button>
-      </Menu.Item>
+      </Menu.Item> 
       <Menu.Item >
         <Button onClick={showDeleteConfirm} danger type="dashed">
           <DeleteOutlined />
@@ -53,16 +49,15 @@ function Card({ movie, deleteHandler, edit, selectMovieHandler }: { movie: IMovi
       </Menu.Item>
     </Menu>
   );
-
   return (
-    <CardStyled onClick={() => selectMovieHandler(movie.id)}>
+    <CardStyled onClick={() => selectMovieHandler(`${movie.id}`)}>
       <div className="card__img">
-        <img src={cardImage} alt="" />
+        <img src={movie.poster_path ? movie.poster_path : cardImage} alt="" />
         <div className="card__btns">
           <Dropdown overlay={menu}>
-            <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-              <DownOutlined style={{ fontSize: "20px" }} />
-            </a>
+            <p className="ant-dropdown-link">
+              <DownOutlined style={{ fontSize: "20px", color:"white" }} />
+            </p>
           </Dropdown>
         </div>
       </div>
@@ -72,11 +67,18 @@ function Card({ movie, deleteHandler, edit, selectMovieHandler }: { movie: IMovi
             {movie.title}
           </h2>
           <p className="card__release-date">
-            {movie.releaseDate}
+            {movie.release_date}
           </p>
         </div>
         <div className="card__tags">
-          {movie.genre}
+          {movie.genres.map((item, index) => (
+            <>
+              <span className="card__tag" key={index}>
+                {item}
+              </span>
+              {" "}
+            </>
+          ))}
         </div>
       </div>
     </CardStyled>

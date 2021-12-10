@@ -1,40 +1,72 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import Form from "./components/MovieForm";
 import Logo from "./components/Logo";
 import { IMovie } from "./components/types";
 import Header from "./containers/Header";
 import Movies from "./containers/Movies";
-import movies from "./db/movies";
 import { StyledApp } from "./styles/App.styled";
 import MovieDetails from "./components/MovieDetails";
+import { useAppDispatch } from './store/hooks';
+import { addMovie, deleteMovie, fetchMovies, filterMovies, searchMovies, sortByMovies, updateMovie } from './store/thunks';
+import { selectMovies } from './store/movies/moviesSlice';
 
 function App() {
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
-  const [data, setData] = useState(movies);
+  const [isEditable, setIsEditable] = useState<boolean>(false);
+  const [moivieIdForUpdate, setMoivieIdForUpdate] = useState<string>('');
+  const [data, setData] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState<IMovie | null>();
+  const dispatch: any = useAppDispatch();
 
-  const deleteMovie = (id: any) => {
-    const udpated = data.filter((i) => i.id !== id);
-    setData(udpated);
+  useEffect(() => {
+    dispatch(fetchMovies());
+  }, [dispatch]);
+
+  
+  const convertMovies = useSelector(selectMovies);
+
+  const deleteHandler = (id: any) => {
+    dispatch(deleteMovie(id))
+    dispatch(fetchMovies())
   };
 
-  const addHandler = (movie: IMovie) => {
-    setData([{ ...movie, id: `${data.length + 1}` }, ...data]);
+  const converMovieToRequest = (movie) => {
+    const { id, ...rest } = movie;
+    const body = {
+      ...rest, 
+      genres: [movie.genres],
+      tagline: movie.tagline || "comedy",
+      vote_average: +movie.vote_average,
+      budget: +movie.budget,
+      revenue: +movie.revenue,
+      runtime: +movie.runtime,
+    }
+    return body
+  }
+
+  const addHandler = (movie) => {
+    const body = converMovieToRequest(movie)
+    dispatch(addMovie(body));
   };
 
-  const editHandler = (id: string) => {
-    // I will implement this one with API
-    console.log("edit handler");
+  const getMovieIdForUpdate = (id: string) => {
+    setModalIsOpen(true)
+    setIsEditable(true)
+    setMoivieIdForUpdate(id)
   };
 
-  const filterMovies = (id: string): any => {
+  const editHandler = (values) => {
+    console.log(values, 'editHandler');
+    const body = {...values, genres: [values.genres]}
+    dispatch(updateMovie(body))
+  }
+
+  const filterHandler = (id: string): any => {
     if (id === "all") {
-      setData(movies);
+      dispatch(fetchMovies());
     } else {
-      const sortedList = movies.filter((item) => item.genre === id);
-      setData(sortedList);
-      console.log(sortedList, "sorted list");
-      console.log(data, id, "DATA list");
+      dispatch(filterMovies(id));
     }
   };
 
@@ -47,9 +79,19 @@ function App() {
     }
   };
 
+  const sortHandler = (id: string): any => {
+    dispatch(sortByMovies(id));
+  };
+
+  const searchHandler = (e: any): any => {
+    e.preventDefault();
+    const searchValue = e.target.value;
+    dispatch(searchMovies(searchValue));
+  };
+  
   return (
     <StyledApp>
-      {!selectedMovie && <Header modalOpen={() => setModalIsOpen(true)} />}
+      {!selectedMovie && <Header searchHandler={searchHandler} modalOpen={() => setModalIsOpen(true)} />}
       {selectedMovie && (
         <MovieDetails
           data={selectedMovie}
@@ -60,14 +102,18 @@ function App() {
         addMovie={addHandler}
         isOpen={modalIsOpen}
         modalClose={() => setModalIsOpen(false)}
+        editHandler={editHandler}
+        isEditable={isEditable}
+        movieIdForUpdate={moivieIdForUpdate}
       />
       <Movies
         selectMovieHandler={selectedMovieHandler}
-        filterMovies={filterMovies}
-        edit={editHandler}
+        filterMovies={filterHandler}
+        edit={getMovieIdForUpdate}
         add={addHandler}
-        deleteHandler={deleteMovie}
-        data={data}
+        deleteHandler={deleteHandler}
+        data={convertMovies}
+        sortMovies={sortHandler}
       />
       <Logo />
     </StyledApp>

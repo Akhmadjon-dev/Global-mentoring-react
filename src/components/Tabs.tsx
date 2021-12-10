@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { ITabs } from './types'
-import { tabs } from './utility'
+import { sortBy, tabs } from './utility'
 
-function Tabs({ filterMovies }: { filterMovies: (id: string) => {} }) {
+function Tabs({ filterMovies, sortMovies }: { filterMovies: (id: string) => {}, sortMovies: (id: string) => {} }) {
 
 
     const [activeTab, setActiveTab] = useState<string>('all')
@@ -15,7 +15,7 @@ function Tabs({ filterMovies }: { filterMovies: (id: string) => {} }) {
 
     const renderTabs = () => {
         return tablsList.map((tab, index) => (
-            <li onClick={() => handleClick(tab.id)} key={index} className={tab.id === activeTab ? ' tab--active tab' : "tab"}>
+            <li onClick={() => handleClick(tab.id)} key={tab.id} className={tab.id === activeTab ? ' tab--active tab' : "tab"}>
                 {tab.title}
             </li>
         ))
@@ -23,7 +23,7 @@ function Tabs({ filterMovies }: { filterMovies: (id: string) => {} }) {
 
     const selectHandler = (e: { target: { value: any } }) => {
         const { value } = e.target;
-        filterMovies(value)
+        sortMovies(value)
     }
 
     return (
@@ -35,8 +35,8 @@ function Tabs({ filterMovies }: { filterMovies: (id: string) => {} }) {
                 <label>Sort by</label>
                 <select onChange={selectHandler}>
                     {
-                        tabs.map(item => (
-                            <option value={item.id}>
+                        sortBy.map(item => (
+                            <option key={item.id} value={item.id}>
                                 {item.title}
                             </option>
                         ))

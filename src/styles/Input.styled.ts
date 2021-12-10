@@ -4,7 +4,7 @@ import clr from './colors';
 export const StyledInput = sty.div<{width: string, margin?: string, height?: string}>`
     display: flex;
     flex-direction: column;
-    
+    color: #ffffff;
     input{
         background: rgba(50, 50, 50, 0.948044);
         padding: 20px;

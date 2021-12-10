@@ -4,14 +4,16 @@ import { StyledBtn } from '../styles/Button.styled'
 function Button({
     label,
     handler,
-    bg
+    bg,
+    type
 }: {
     label: string;
-    handler: any;
-    bg?: string
+    handler?: any;
+    bg?: string;
+    type?: "button" | "submit" | "reset";
 }) {
     return (
-        <StyledBtn bg={bg} onClick={handler}>
+        <StyledBtn type={type} bg={bg} onClick={handler}>
             {label}
         </StyledBtn>
     )

@@ -6,7 +6,10 @@ export interface ITabs {
 export interface IForm {
     isOpen: boolean;
     modalClose: () => void;
-    addMovie: any
+    addMovie: any;
+    editHandler: any;
+    isEditable: boolean;
+    movieIdForUpdate: string;
 }
 export interface IInput {
     value: string;
@@ -19,17 +22,22 @@ export interface IInput {
     width: string;
     marginRight?: string;
     height?: string;
+    isValid?: boolean;
 }
 
 export interface IMovie {
-    id: string;
+    id: number;
     title: string;
-    rate: string;
-    genre: string;
-    description: string;
-    releaseDate: string;
-    url: string;
-    runtime: string;
+    vote_average: number;
+    genres: string[];
+    overview: string;
+    release_date: string;
+    poster_path: string;
+    runtime: number;
+    budget: number;
+    revenue: number;
+    tagline: string;
+    vote_count: number;
 }
 
 export interface IMoviesCards {
